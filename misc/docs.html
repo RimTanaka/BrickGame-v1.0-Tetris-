@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Документация по игре Тетрис</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        ul {
+            list-style-type: square;
+            margin-left: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }
+        .state-diagram {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            position: relative;
+            flex-wrap: wrap;
+        }
+        .state-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            margin: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .arrow {
+            margin: 0 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .spawn-box {
+            border: 2px dashed #333;
+        }
+        /* Вертикальная двунаправленная стрелка */
+        .vertical-arrow-double {
+            writing-mode: vertical-rl;
+            transform: rotate(90deg);
+            margin: 10px 0;
+        }
+        /* Курсив и увеличенный шрифт на КА */
+        .name-current-state-game {
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+        }
+        .vertical-arrow-double::before {
+            content: "↕";
+        }
+    </style>
+</head>
+<body>
+
+<h1>Документация по игре "Тетрис"</h1>
+
+<h2>Введение</h2>
+<p>Игра "Тетрис" представляет собой головоломку, в которой игрок должен располагать падающие блоки, состоящие из четырех квадратов (тетромино), чтобы собирать заполненные линии, которые затем уничтожаются. </p>
+
+<p>Цель игры — набрать как можно больше очков, уничтожая линии.</p>
+
+<h2>Особенности</h2>
+<ul>
+    <li>Вращение фигур.</li>
+    <li>Горизонтальное перемещение фигур.</li>
+    <li>Ускорение падения фигур.</li>
+    <li>Предпросмотр следующей фигуры.</li>
+    <li>Начисление очков за уничтожение линий.</li>
+    <li>Механика уровней с увеличением сложности.</li>
+</ul>
+
+<h2>Игровые состояния (конечный автомат)</h2>
+<p>Логика игры реализована с использованием конечного автомата (КА), который управляет различными состояниями игры. Ниже описаны основные состояния и возможные переходы между ними.</p>
+
+<div class="state-diagram">
+  <div class="state-box">
+    <span class="name-current-state-game">STATE_INIT</span>
+  </div>
+  <span class="arrow">→</span>
+  <div class="state-box">
+    <div class="state-box">
+      <span class="name-current-state-game">STATE_RUNNING</span>
+        <div class="state-diagram">
+            <div class="state-box spawn-box">Спавн фигуры</div>
+            <span class="arrow">→</span>
+            <div class="state-diagram">
+              <div class="state-box">
+                Движение
+                <span class="vertical-arrow-double">↕</span>
+                Вращение
+              </div>
+            </div>
+            <span class="arrow">→</span>
+            <div class="state-box">Фиксация</div>
+        </div>
+    </div>
+    <span class="vertical-arrow-double">↕</span>
+    <div class="state-box">
+      <span class="name-current-state-game">STATE_PAUSED</span>
+    </div>
+  </div>
+  <span class="arrow">→</span>
+    <div class="state-box">
+      <span class="name-current-state-game">STATE_GAME_OVER</span>
+    </div>
+  </div>
+
+<h2>Информация об игре</h2>
+<p>В игре "Тетрис" поддерживаются следующие игровые механики:</p>
+<ul>
+    <li>Фигуры могут перемещаться влево и вправо, а также вращаться.</li>
+    <li>Падение ускоряется при нажатии стрелки вниз.</li>
+    <li>При заполнении ряда блоками он уничтожается, и игроку начисляются очки.</li>
+    <li>Игра заканчивается, когда блоки достигают верхней границы игрового поля или игрок нажимает кнопку 'q'.</li>
+</ul>
+
+<h2>Подсчет очков</h2>
+<p>В игре "Тетрис" очки начисляются следующим образом:</p>
+<ul>
+    <li>1 линия — 100 очков</li>
+    <li>2 линии — 300 очков</li>
+    <li>3 линии — 700 очков</li>
+    <li>4 линии — 1500 очков</ul>
+</ul>
+
+<h2>Механика уровней</h2>
+<p>Игрок начинает с 1 уровня. За каждые 600 очков уровень повышается, увеличивая скорость падения фигур. Максимальный уровень — 10.</p>
+
+<h2>Заключение</h2>
+<p>Игра "Тетрис" реализована с использованием конечного автомата для управления состояниями игры, что упрощает разработку и отладку. Благодаря этому механизму, игра обрабатывает действия пользователя и управляет игровым процессом эффективно.</p>
+
+</body>
+</html>
